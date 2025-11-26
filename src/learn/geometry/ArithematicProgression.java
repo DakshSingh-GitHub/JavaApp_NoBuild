@@ -1,0 +1,168 @@
+package learn.geometry;
+
+import java.util.*;
+
+public class ArithematicProgression {
+    private double firstNumber;
+    private double secondNumber;
+    private double difference;
+    private boolean isEmpty;
+    private boolean isInitiated;
+    private ArrayList<Double> sequence;
+    private ArrayList<ArrayList<Double>> removedHeap = new ArrayList<>();
+
+    ArithematicProgression (double firstNumber, double secondNumber) {
+        this.firstNumber = firstNumber;
+        this.secondNumber = secondNumber;
+        this.difference = this.secondNumber - this.firstNumber;
+        this.sequence = new ArrayList<>();
+        sequence.add(this.firstNumber);
+        sequence.add(this.secondNumber);
+        this.isEmpty = false;
+        this.isInitiated = true;
+    }
+
+    ArithematicProgression (double firstNumber) {
+        this.firstNumber = firstNumber;
+        this.sequence = new ArrayList<>();
+        sequence.add(this.firstNumber);
+        this.isEmpty = false;
+        this.isInitiated = false;
+    }
+
+    ArithematicProgression () {
+        this.isEmpty = true;
+        this.isInitiated = false;
+        this.sequence = new ArrayList<>();
+    }
+
+    void insertNumber(double number) {
+        if (this.isEmpty == true && this.isInitiated == false) {
+            this.firstNumber = number;
+            this.sequence.add(number);
+            this.isEmpty = false;
+            this.isInitiated = false;
+        } else if (this.isEmpty == false && this.isInitiated == false) {
+            double sec_no = number;
+            this.secondNumber = sec_no;
+            this.difference = this.secondNumber - this.firstNumber;
+            this.sequence.add(sec_no);
+            this.isEmpty = false;
+            this.isInitiated = true;
+        } else {
+            double lastnumber = this.sequence.get(this.sequence.size() - 1);
+            if (number - lastnumber == this.difference) { this.sequence.add(number); }
+            else { IO.println("The number " + number + " doesn't match the AP"); }
+        }
+    }
+
+    void resetAP() {
+        ArrayList<Double> copy = new ArrayList<>();
+        this.sequence.forEach(e -> { copy.add(e); });
+        this.removedHeap.add(copy);
+        this.sequence.clear();
+        this.isEmpty = true;
+        this.isInitiated = false;
+    }
+
+    void updateAP(double n_second_term) {
+        this.secondNumber = n_second_term;
+        this.difference = this.secondNumber - this.firstNumber;
+        double abs_f_term = this.sequence.get(0);
+        ArrayList<Double> copy = new ArrayList<>();
+        this.sequence.forEach(e -> { copy.add(e); });
+        this.removedHeap.add(copy);
+        this.sequence.clear();
+        this.sequence.add(abs_f_term);
+        this.sequence.add(this.secondNumber);
+        this.isEmpty = false;
+    }
+
+    void addNextNumber() {
+        if (this.isEmpty) { IO.println("No series has been specified"); }
+        else {
+            double lastnumber = this.sequence.get(this.sequence.size() - 1);
+            double nextnumber = lastnumber + this.difference;
+            this.sequence.add(nextnumber);
+        }
+    }
+
+    void predictNextNumber() {
+        if (this.isEmpty) { IO.println("No series has been specified"); }
+        else {
+            double lastnumber = this.sequence.get(this.sequence.size() - 1);
+            double nextnumber = lastnumber + this.difference;
+            IO.println("The next number in the AP is (Not added to AP): " + nextnumber);
+        }
+    }
+
+    void removeLastNumber() {
+        if (this.isEmpty) { IO.println("There are no numbers in the AP"); }
+        else {
+            double lastnumber = this.sequence.remove(this.sequence.size() - 1);
+            IO.println("Removed number: " + lastnumber);
+        }
+    }
+
+    int sumOfAP() {
+        double sum =  0;
+        if (this.isEmpty) { IO.println("Sum can't be initialized on an empty AP"); }
+        else {
+            double n = this.sequence.size();
+            sum = (n/2) * (2*this.firstNumber + (n-1)*this.difference);  
+        }
+        return (int)sum;
+    }
+
+    int projectedSumOfAP(int n) {
+        double sum =  0;
+        if (this.isEmpty) { IO.println("Sum can't be initialized on an empty AP"); }
+        else {
+            sum = (n/2) * (2*this.firstNumber + (n-1)*this.difference);  
+        }
+        return (int)sum;
+    }
+
+    int nthTerm(int n) {
+        double term = 0;
+        if (this.isEmpty) { IO.println("Can not tell the nth term for empty AP"); }
+        else { term = this.firstNumber + (n-1)*this.difference; }
+        return (int)term;
+    }
+
+    static boolean checkIfAP(ArithematicProgression ap) {
+        if (ap.isEmpty) { return false; }
+        else if (ap.sequence.size() < 2) { return false; }
+        else {
+            ArrayList<Double> seq = ap.getCurrentSequence();
+            ArrayList<Double> checkAp = new ArrayList<>() {{ add(seq.get(0));add(seq.get(1)); }};
+            double diff = seq.get(1) - seq.get(0);
+            double ct = 2;
+            int size = seq.size();
+            for ( int i = 0; i < size-2; i++ ) { checkAp.add(seq.get(0) + ct*diff); ct++; }
+            for ( int i = 0; i < size; i++ ) { if (seq.get(i).doubleValue() != checkAp.get(i).doubleValue()) { return false; } }
+            return true;
+        }
+    }
+
+    static String getDocs() {
+        String docs = """
+        Arithematic Progression:
+            - Every Instance can initialize with 0 arguments, or two elements, no 1 element only is allowed
+            - About the methods, can be self explnatory
+        """;
+        return docs;
+    }
+
+    Map<String, Boolean> getAPCurrentValidityTestResult() { 
+        Map<String, Boolean> res = new HashMap<>();
+        res.put("is_ap_empty", this.isEmpty);
+        res.put("is_ap_initialized", this.isInitiated);
+        res.put("is_ap_valid", ArithematicProgression.checkIfAP(this));
+        return res;
+    }
+
+
+    ArrayList<Double> getCurrentSequence() { return this.sequence; }
+    ArrayList<ArrayList<Double>> getRemovedHeap() { return this.removedHeap; }
+}
