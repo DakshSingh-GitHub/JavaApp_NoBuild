@@ -56,13 +56,27 @@ public class ArithematicProgression {
         }
     }
 
-    void resetAP() {
+    void clearAP() {
         ArrayList<Double> copy = new ArrayList<>();
         this.sequence.forEach(e -> { copy.add(e); });
         this.removedHeap.add(copy);
         this.sequence.clear();
         this.isEmpty = true;
         this.isInitiated = false;
+    }
+
+    void resetAP(double n_first_term, double n_second_term) {
+        ArrayList<Double> copy = new ArrayList<>();
+        this.sequence.forEach( e -> { copy.add(e); });
+        this.removedHeap.add(copy);
+        this.sequence.clear();
+        this.firstNumber = n_first_term;
+        this.secondNumber = n_second_term;
+        this.difference = this.secondNumber - this.firstNumber;
+        this.isEmpty = false;
+        this.isInitiated = true;
+        this.sequence.add(this.firstNumber);
+        this.sequence.add(this.secondNumber);
     }
 
     void updateAP(double n_second_term) {

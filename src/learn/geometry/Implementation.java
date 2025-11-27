@@ -22,9 +22,8 @@ public class Implementation {
         // ap.insertNumber(8);
         ap.insertNumber(10);
         ap.insertNumber(14);
+        ap.clearAP();
         IO.println(ap.getCurrentSequence());
-        IO.println(ap.getRemovedHeap());
         (ap.getAPCurrentValidityTestResult()).forEach((k,v) -> IO.println(k + " : " + v));
-        IO.println(ArithematicProgression.getDocs());
     }
 }
