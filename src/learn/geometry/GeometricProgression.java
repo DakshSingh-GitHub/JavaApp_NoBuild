@@ -99,6 +99,19 @@ class GeometricProgression {
         return nextTerm;
     }
 
+    double sumOfGP() {
+        double sum = 0.0;
+        if (this.isEmpty == true) { IO.println("Sum can't be initialized on an empty GP"); }
+        else {
+            double n = this.sequence.size();
+            double a = this.sequence.get(0);
+            double r = this.common_ratio;
+            if (r < 1) sum = a*(1-Math.pow(r, n))/(1-r);
+            else sum = a*(Math.pow(r, n)-1)/(r-1);
+        }
+        return sum;
+    }
+
     void clearRemovedHeap() { this.removedHeap.clear(); }
     ArrayList<ArrayList<Double>> getRemovedHeap() { return this.removedHeap; }
     ArrayList<Double> getCurrentSequence() { return this.sequence; }

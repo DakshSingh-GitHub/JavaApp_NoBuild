@@ -36,7 +36,8 @@ public class ArithematicProgression {
         this.sequence = new ArrayList<>();
     }
 
-    void insertNumber(double number) {
+    // renamed from insertNumber to insertTerm
+    void insertTerm(double number) {
         if (this.isEmpty == true && this.isInitiated == false) {
             this.firstNumber = number;
             this.sequence.add(number);
@@ -92,7 +93,9 @@ public class ArithematicProgression {
         this.isEmpty = false;
     }
 
-    void addNextNumber() {
+    // Renamed from addNextNumber to safeInsertNextTerm
+    void safeInsertNextTerm() {
+        // Returns no error while inserting as it predicts next term, properly and inserts it, without the user having to define the term so prevents error
         if (this.isEmpty) { IO.println("No series has been specified"); }
         else {
             double lastnumber = this.sequence.get(this.sequence.size() - 1);
@@ -101,7 +104,8 @@ public class ArithematicProgression {
         }
     }
 
-    void predictNextNumber() {
+    // Renamed from predictNextNumber to predictTerm
+    void predictTerm() {
         if (this.isEmpty) { IO.println("No series has been specified"); }
         else {
             double lastnumber = this.sequence.get(this.sequence.size() - 1);
@@ -110,7 +114,19 @@ public class ArithematicProgression {
         }
     }
 
-    void removeLastNumber() {
+    // Added a method predictTerm(int n)
+    void predictTerm(int n) {
+        if (this.isEmpty) { IO.println("No series has been specified"); }
+        else {
+            double first_number = this.firstNumber;
+            double difference = this.difference;
+            double nextnumber = first_number + (n-1)*difference;
+            IO.println("The next number in the AP is (Not added to AP): " + nextnumber);
+        }
+    }
+
+    // Renamed from removeNextNumber to removeLastTerm
+    void removeLastTerm() {
         if (this.isEmpty) { IO.println("There are no numbers in the AP"); }
         else {
             double lastnumber = this.sequence.remove(this.sequence.size() - 1);
