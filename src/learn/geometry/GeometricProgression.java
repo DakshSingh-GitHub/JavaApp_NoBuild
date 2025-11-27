@@ -53,6 +53,16 @@ class GeometricProgression {
         }
     }
 
+    // This is a safe insert function, it doesn't show any error because the next insertion term is automated
+    void safeInsertNextTerm() {
+        if (this.isEmpty == true && this.isInitialized == false) IO.println("Can't addd on a non-initialized GP");
+        else {
+            double currentLastTerm = this.sequence.get(this.sequence.size()-1);
+            double nextTerm = currentLastTerm * this.common_ratio;
+            this.sequence.add(nextTerm);
+        }
+    }
+
     // Suggest better ways
     void clearGP() {
         ArrayList<Double> copy = new ArrayList<Double>();
@@ -104,6 +114,19 @@ class GeometricProgression {
         if (this.isEmpty == true) { IO.println("Sum can't be initialized on an empty GP"); }
         else {
             double n = this.sequence.size();
+            double a = this.sequence.get(0);
+            double r = this.common_ratio;
+            if (r < 1) sum = a*(1-Math.pow(r, n))/(1-r);
+            else sum = a*(Math.pow(r, n)-1)/(r-1);
+        }
+        return sum;
+    }
+
+    // Returns sum of the geometric progression till any specified number/place
+    double projectedSumOfGP(int n) {
+        double sum = 0.0;
+        if (this.isEmpty == true) { IO.println("Sum can't be initialized on an empty GP"); }
+        else {
             double a = this.sequence.get(0);
             double r = this.common_ratio;
             if (r < 1) sum = a*(1-Math.pow(r, n))/(1-r);
