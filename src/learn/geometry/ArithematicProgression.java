@@ -9,8 +9,8 @@ public class ArithematicProgression {
     private boolean isEmpty;
     private boolean isInitialized;
     private ArrayList<Double> sequence;
-    private ArrayList<Integer> lastInsertionSize = new ArrayList<>();
     private ArrayList<ArrayList<Double>> removedHeap = new ArrayList<>();
+
 
     ArithematicProgression (double firstNumber, double secondNumber) {
         this.firstNumber = firstNumber;
@@ -64,7 +64,7 @@ public class ArithematicProgression {
             IO.println("Can't add on a non-initialized AP");
         } else {
             int sizeOfSequence = this.sequence.size();
-            if (lastInsertionSize.size() == 0 || lastInsertionSize.get(lastInsertionSize.size()-1) < n) {
+            if (this.sequence.size() < n) {
                 double difference = this.difference;
                 ArrayList<Double> numbersOfInsertion = new ArrayList<>();
                 for ( int i = sizeOfSequence; i < n; i++ ) {
@@ -72,10 +72,8 @@ public class ArithematicProgression {
                     numbersOfInsertion.add(nextnumber);
                 }
                 numbersOfInsertion.forEach(e -> { this.sequence.add(e); });
-                lastInsertionSize.add(n);
-            } else {
-                IO.println("The new insertion range should be greater than last: " + lastInsertionSize.get(lastInsertionSize.size()-1));
             }
+            else { IO.println("The new insertion range should be greater than current size: " + this.sequence.size()); }
         }
     }
 
@@ -114,10 +112,10 @@ public class ArithematicProgression {
         this.sequence.add(this.secondNumber);
         this.isEmpty = false;
     }
-
-    // Renamed from addNextNumber to safeInsertNextTerm
+    
+    // Returns no error while inserting as it predicts next term, properly and inserts it, without the user having to define the term so prevents error
     void safeInsertNextTerm() {
-        // Returns no error while inserting as it predicts next term, properly and inserts it, without the user having to define the term so prevents error
+        
         if (this.isEmpty) { IO.println("No series has been specified"); }
         else {
             double lastnumber = this.sequence.get(this.sequence.size() - 1);
@@ -157,11 +155,7 @@ public class ArithematicProgression {
     }
 
     // Removes the last N terms given by user
-    void removeLastNTerms( int n ) {
-        for ( int i = 0; i < n; i++ ) removeLastTerm();
-        int last_insertion_size = this.lastInsertionSize.removeLast();
-        this.lastInsertionSize.add(last_insertion_size - n);
-    }
+    void removeLastNTerms( int n ) { for ( int i = 0; i < n; i++ ) removeLastTerm(); }
 
     double sumOfAP() {
         double sum =  0;
@@ -182,25 +176,34 @@ public class ArithematicProgression {
         return sum;
     }
 
-    // Comment region...unnecessary, or so as I think of it. "double predictTerm(int n)" visually does the same thing
-    // double nthTerm(int n) {
-    //     double term = 0;
-    //     if (this.isEmpty) { IO.println("Can not tell the nth term for empty AP"); }
-    //     else { term = this.firstNumber + (n-1)*this.difference; }
-    //     return term;
-    // }
-
-    static boolean checkIfAP(ArithematicProgression ap) {
-        if (ap.isEmpty) { return false; }
-        else if (ap.sequence.size() < 2) { return false; }
+    static boolean isValidAPDouble(ArrayList<Double> sequence) {
+        if (sequence.size() == 0 || sequence.size() == 1 || sequence.size() == 2) { return false; }
+        else if (sequence.size() < 2) { return false; }
         else {
-            ArrayList<Double> seq = ap.getCurrentSequence();
-            ArrayList<Double> checkAp = new ArrayList<>() {{ add(seq.get(0));add(seq.get(1)); }};
-            double diff = seq.get(1) - seq.get(0);
+            double f_number = sequence.get(0);
+            double s_number = sequence.get(1);
+            ArrayList<Double> checkAp = new ArrayList<>() {{ add(f_number);add(s_number); }};
+            double diff = s_number - f_number;
             double ct = 2;
-            int size = seq.size();
-            for ( int i = 0; i < size-2; i++ ) { checkAp.add(seq.get(0) + ct*diff); ct++; }
-            for ( int i = 0; i < size; i++ ) { if (seq.get(i).doubleValue() != checkAp.get(i).doubleValue()) { return false; } }
+            int size = sequence.size();
+            for ( int i = 0; i < size-2; i++ ) { checkAp.add(sequence.get(0) + ct*diff); ct++; }
+            for ( int i = 0; i < size; i++ ) { if (sequence.get(i).doubleValue() != checkAp.get(i).doubleValue()) { return false; } }
+            return true;
+        }
+    }
+
+    static boolean isValidGPInteger(ArrayList<Integer> sequence) {
+        if (sequence.size() == 0 || sequence.size() == 1 || sequence.size() == 2) { return false; }
+        else if (sequence.size() < 2) { return false; }
+        else {
+            int f_number = sequence.get(0);
+            int s_number = sequence.get(1);
+            ArrayList<Integer> checkAp = new ArrayList<>() {{ add(f_number);add(s_number); }};
+            int diff = s_number - f_number;
+            int ct = 2;
+            int size = sequence.size();
+            for ( int i = 0; i < size-2; i++ ) { checkAp.add(sequence.get(0) + ct*diff); ct++; }
+            for ( int i = 0; i < size; i++ ) { if (sequence.get(i).intValue() != checkAp.get(i).intValue()) { return false; } }
             return true;
         }
     }
@@ -219,7 +222,7 @@ public class ArithematicProgression {
         Map<String, Boolean> res = new HashMap<>();
         res.put("is_ap_empty", this.isEmpty);
         res.put("is_ap_initialized", this.isInitialized);
-        res.put("is_ap_valid", ArithematicProgression.checkIfAP(this));
+        res.put("is_ap_valid", ArithematicProgression.isValidAPDouble(this.sequence));
         return res;
     }
 
