@@ -4,14 +4,73 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-class GeometricProgression {
+
+/**
+ * Represents a geometric progression (GP) of double-precision floating-point numbers.
+ * <p>
+ * A geometric progression is a sequence of non-zero numbers where each term after the first
+ * is found by multiplying the previous one by a fixed, non-zero number called the common ratio.
+ *
+ * <h3>Instance Formation Rules:</h3>
+ * An instance of this class can be in one of three states:
+ * <ul>
+ *     <li><b>Empty:</b> Created with the no-argument constructor. It has no terms.</li>
+ *     <li><b>Uninitialized:</b> Created with one term. The common ratio is not yet known.
+ *         A second term must be inserted to initialize the progression.</li>
+ *     <li><b>Initialized:</b> Created with two terms, or by adding a second term to an
+ *         uninitialized progression. The common ratio is known, and the sequence
+ *         can be extended.</li>
+ * </ul>
+ * Note: A first term of zero is not supported for calculating a common ratio.
+ *
+ * <h3>Method Overview:</h3>
+ * <ul>
+ *     <li><b>Constructors:</b>
+ *         <ul>
+ *             <li>{@code GeometricProgression()}: Creates an empty GP.</li>
+ *             <li>{@code GeometricProgression(double first_term)}: Creates a GP with one term (uninitialized).</li>
+ *             <li>{@code GeometricProgression(double first_term, double second_term)}: Creates a fully initialized GP.</li>
+ *         </ul>
+ *     </li>
+ *     <li><b>Modification Methods:</b>
+ *         <ul>
+ *             <li>{@code insertTerm(double n)}: Inserts a term, initializing the GP if needed or validating against the existing ratio.</li>
+ *             <li>{@code insertTillNthTerm(int n)}: Extends the sequence to a total of 'n' terms.</li>
+ *             <li>{@code safeInsertNextTerm()}: Calculates and adds the next term automatically.</li>
+ *             <li>{@code removeLastTerm()}: Removes and returns the last term from the sequence.</li>
+ *             <li>{@code removeLastNTerms(int n)}: Removes the last 'n' terms.</li>
+ *             <li>{@code clearGP()}: Empties the sequence, saving the old one to a history heap.</li>
+ *             <li>{@code updateGP(double n_second_term)}: Changes the second term and recalculates the entire sequence.</li>
+ *             <li>{@code resetGP(double n_first_term, double n_second_term)}: Replaces the sequence with a new one.</li>
+ *         </ul>
+ *     </li>
+ *     <li><b>Calculation and Prediction:</b>
+ *         <ul>
+ *             <li>{@code predictTerm()}: Returns the value of the next term without adding it.</li>
+ *             <li>{@code predictTerm(int n)}: Calculates the value of the nth term in the series.</li>
+ *             <li>{@code sumOfGP()}: Returns the sum of all terms currently in the sequence.</li>
+ *             <li>{@code projectedSumOfGP(int n)}: Calculates the sum of the first 'n' terms of the series.</li>
+ *         </ul>
+ *     </li>
+ *     <li><b>State and Validation:</b>
+ *         <ul>
+ *             <li>{@code getCurrentSequence()}: Returns a copy of the current sequence.</li>
+ *             <li>{@code getRemovedHeap()}: Returns a history of all cleared sequences.</li>
+ *             <li>{@code clearRemovedHeap()}: Clears the history of removed sequences.</li>
+ *             <li>{@code getGPCurrentValidityTestResult()}: Returns a map with the current state (empty, initialized, valid).</li>
+ *             <li>{@code isValidGP(ArrayList<Double> sequence)}: A static method to check if any list of doubles is a valid GP.</li>
+ *         </ul>
+ *     </li>
+ * </ul>
+ */
+
+public class GeometricProgression {
     private double first_term, second_term;
     private double common_ratio;
     private boolean isEmpty;
     private boolean isInitialized;
     private ArrayList<Double> sequence;
     private ArrayList<ArrayList<Double>> removedHeap = new ArrayList<>();
-    private ArrayList<Integer> lastInsertionSize = new ArrayList<>();
 
     GeometricProgression() {
         this.isEmpty = true;
@@ -61,7 +120,7 @@ class GeometricProgression {
             IO.println("Can't add on a non-initialized AP");
         } else {
             int sizeOfSequence = this.sequence.size();
-            if (lastInsertionSize.size() == 0 || lastInsertionSize.get(lastInsertionSize.size()-1) < n) {
+            if (sizeOfSequence < n) {
                 double common_ratio = this.common_ratio;
                 ArrayList<Double> numbersOfInsertion = new ArrayList<>();
                 for ( int i = sizeOfSequence; i < n; i++ ) {
@@ -69,10 +128,8 @@ class GeometricProgression {
                     numbersOfInsertion.add(nextnumber);
                 }
                 numbersOfInsertion.forEach(e -> { this.sequence.add(e); });
-                lastInsertionSize.add(n);
-            } else {
-                IO.println("The new insertion range should be greater than last: " + lastInsertionSize.get(lastInsertionSize.size()-1));
-            }
+            } 
+            else { IO.println("The new insertion range should be greater than last: " + sizeOfSequence); }
         }
     }
 
@@ -131,6 +188,13 @@ class GeometricProgression {
         double nextTerm = this.first_term * Math.pow(this.common_ratio, n-1);
         return nextTerm;
     }
+
+    double removeLastTerm() {
+        if( this.isEmpty == false ) { return 0; } 
+        else { return this.sequence.remove(this.sequence.size()-1); }
+    }
+
+    void removeLastNTerms( int n ) { for ( int i = 0; i < n; i++ ) removeLastTerm(); }
 
     double sumOfGP() {
         double sum = 0.0;

@@ -2,6 +2,27 @@ package learn.geometry;
 
 import java.util.*;
 
+/**
+ * Represents an arithmetic progression (AP) of double-precision floating-point numbers.
+ * <p>
+ * An arithmetic progression is a sequence of numbers such that the difference between
+ * consecutive terms is constant. This constant is called the common difference.
+ *
+ * <h3>Instance Formation Rules:</h3>
+ * An instance of this class can be in one of three states:
+ * <ul>
+ *     <li><b>Empty:</b> Created with the no-argument constructor. It has no terms.</li>
+ *     <li><b>Uninitialized:</b> Created with one term. The common difference is not yet known.
+ *         A second term must be inserted to initialize the progression.</li>
+ *     <li><b>Initialized:</b> Created with two terms, or by adding a second term to an
+ *         uninitialized progression. The common difference is known, and the sequence
+ *         can be extended.</li>
+ * </ul>
+ *
+ * This class provides methods to insert terms, calculate sums, and manage the sequence.
+ */
+
+
 public class ArithematicProgression {
     private double firstNumber;
     private double secondNumber;
@@ -64,7 +85,7 @@ public class ArithematicProgression {
             IO.println("Can't add on a non-initialized AP");
         } else {
             int sizeOfSequence = this.sequence.size();
-            if (this.sequence.size() < n) {
+            if (sizeOfSequence < n) {
                 double difference = this.difference;
                 ArrayList<Double> numbersOfInsertion = new ArrayList<>();
                 for ( int i = sizeOfSequence; i < n; i++ ) {
@@ -73,7 +94,7 @@ public class ArithematicProgression {
                 }
                 numbersOfInsertion.forEach(e -> { this.sequence.add(e); });
             }
-            else { IO.println("The new insertion range should be greater than current size: " + this.sequence.size()); }
+            else { IO.println("The new insertion range should be greater than current size: " + sizeOfSequence); }
         }
     }
 
@@ -115,7 +136,6 @@ public class ArithematicProgression {
     
     // Returns no error while inserting as it predicts next term, properly and inserts it, without the user having to define the term so prevents error
     void safeInsertNextTerm() {
-        
         if (this.isEmpty) { IO.println("No series has been specified"); }
         else {
             double lastnumber = this.sequence.get(this.sequence.size() - 1);
@@ -148,10 +168,7 @@ public class ArithematicProgression {
     // Renamed from removeNextNumber to removeLastTerm.
     double removeLastTerm() {
         if (this.isEmpty) { return 0; }
-        else {
-            double lastnumber = this.sequence.remove(this.sequence.size() - 1);
-            return lastnumber;
-        }
+        else {  return this.sequence.remove(this.sequence.size() - 1); }
     }
 
     // Removes the last N terms given by user
@@ -206,16 +223,6 @@ public class ArithematicProgression {
             for ( int i = 0; i < size; i++ ) { if (sequence.get(i).intValue() != checkAp.get(i).intValue()) { return false; } }
             return true;
         }
-    }
-
-    static String getDocs() {
-        String docs = """
-        Arithematic Progression:
-            - Every Instance can initialize with 0 arguments, or two elements, no 1 element only is allowed
-            - About the methods, can be self explnatory
-            - Any return which is equal to 0 means no return
-        """;
-        return docs;
     }
 
     Map<String, Boolean> getAPCurrentValidityTestResult() { 

@@ -6,8 +6,9 @@ public class Implementation {
        
         // IO.println(gp.getCurrentSequence().size());
         // IO.println(gp.getCurrentSequence());
-        // gp.insertTillNthTerm(10);
+        gp.insertTillNthTerm(10);
         IO.println(gp.getCurrentSequence());
+        gp.insertTillNthTerm(3);
         // ArrayList<Double> news = gp.getCurrentSequence();
         gp.getGPCurrentValidityTestResult().forEach((k,v) -> IO.println(k + " : " + v));
 

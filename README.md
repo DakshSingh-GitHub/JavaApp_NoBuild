@@ -1,18 +1,51 @@
-## Getting Started
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## Project Classes
 
-## Folder Structure
+> ### learn.geometry
 
-The workspace contains two folders by default, where:
+This project provides classes for handling mathematical progressions.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+### `ArithematicProgression`
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+Represents an arithmetic progression (AP) of `double` values. An arithmetic progression is a sequence of numbers where the difference between consecutive terms is constant.
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+#### Instance States:
+*   **Empty:** Created with `ArithematicProgression()`. Has no terms.
+*   **Uninitialized:** Created with `ArithematicProgression(firstTerm)`. The common difference is unknown until a second term is added.
+*   **Initialized:** Created with `ArithematicProgression(firstTerm, secondTerm)`. The common difference is known, and the sequence can be extended.
 
-## Dependency Management
+#### Key Methods:
+*   `insertTerm(double number)`: Adds a new term, initializing or validating the sequence.
+*   `insertTillNthTerm(int n)`: Extends the sequence to a total of 'n' terms.
+*   `safeInsertNextTerm()`: Automatically calculates and adds the next correct term.
+*   `sumOfAP()`: Calculates the sum of the current terms.
+*   `projectedSumOfAP(int n)`: Calculates the sum of the first 'n' terms.
+*   `predictTerm()`: Predicts the next term without adding it to the sequence.
+*   `removeLastTerm()`: Removes the last term from the sequence.
+*   `clearAP()` / `resetAP()`: Manages the sequence's lifecycle.
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+### `GeometricProgression`
+
+Represents a geometric progression (GP) of `double` values. A geometric progression is a sequence where each term after the first is found by multiplying the previous one by a fixed, non-zero number (the common ratio).
+
+#### Instance States:
+*   **Empty:** Created with `GeometricProgression()`. Has no terms.
+*   **Uninitialized:** Created with `GeometricProgression(firstTerm)`. The common ratio is unknown.
+*   **Initialized:** Created with `GeometricProgression(firstTerm, secondTerm)`. The common ratio is known.
+
+#### Method Overview:
+*   **Modification:**
+    *   `insertTerm(double n)`: Inserts a term, initializing or validating the GP.
+    *   `insertTillNthTerm(int n)`: Extends the sequence to 'n' terms.
+    *   `safeInsertNextTerm()`: Automatically calculates and adds the next term.
+    *   `removeLastTerm()`: Removes the last term.
+    *   `clearGP()` / `resetGP()` / `updateGP()`: Manages the sequence's lifecycle.
+*   **Calculation & Prediction:**
+    *   `predictTerm()`: Returns the value of the next term without adding it.
+    *   `predictTerm(int n)`: Calculates the value of the nth term.
+    *   `sumOfGP()`: Returns the sum of all terms currently in the sequence.
+    *   `projectedSumOfGP(int n)`: Calculates the sum of the first 'n' terms.
+*   **State & Validation:**
+    *   `getCurrentSequence()`: Returns a copy of the current sequence.
+    *   `getRemovedHeap()`: Returns a history of all cleared sequences.
+    *   `isValidGP(ArrayList<Double> sequence)`: A static method to check if any list of doubles is a valid GP.
