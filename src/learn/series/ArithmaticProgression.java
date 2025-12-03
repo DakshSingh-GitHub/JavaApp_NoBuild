@@ -23,7 +23,7 @@ import java.util.*;
  */
 
 
-public class ArithematicProgression {
+public class ArithmaticProgression {
     private double firstNumber;
     private double secondNumber;
     private double difference;
@@ -33,7 +33,7 @@ public class ArithematicProgression {
     private ArrayList<ArrayList<Double>> removedHeap = new ArrayList<>();
 
 
-    public ArithematicProgression (double firstNumber, double secondNumber) {
+    public ArithmaticProgression (double firstNumber, double secondNumber) {
         this.firstNumber = firstNumber;
         this.secondNumber = secondNumber;
         this.difference = this.secondNumber - this.firstNumber;
@@ -44,7 +44,7 @@ public class ArithematicProgression {
         this.isInitialized = true;
     }
 
-    public ArithematicProgression (double firstNumber) {
+    public ArithmaticProgression (double firstNumber) {
         this.firstNumber = firstNumber;
         this.sequence = new ArrayList<>();
         sequence.add(this.firstNumber);
@@ -52,7 +52,7 @@ public class ArithematicProgression {
         this.isInitialized = false;
     }
 
-    public ArithematicProgression () {
+    public ArithmaticProgression () {
         this.isEmpty = true;
         this.isInitialized = false;
         this.sequence = new ArrayList<>();
@@ -229,7 +229,7 @@ public class ArithematicProgression {
         Map<String, Boolean> res = new HashMap<>();
         res.put("is_ap_empty", this.isEmpty);
         res.put("is_ap_initialized", this.isInitialized);
-        res.put("is_ap_valid", ArithematicProgression.isValidAPDouble(this.sequence));
+        res.put("is_ap_valid", ArithmaticProgression.isValidAPDouble(this.sequence));
         return res;
     }
 

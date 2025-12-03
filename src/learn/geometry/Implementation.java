@@ -1,7 +1,7 @@
 package learn.geometry;
 
 import learn.series.GeometricProgression;
-import learn.series.ArithematicProgression;;
+import learn.series.ArithmaticProgression;;
 
 public class Implementation {
     public static void main(String[] args) {
@@ -16,7 +16,7 @@ public class Implementation {
         gp.getGPCurrentValidityTestResult().forEach((k,v) -> IO.println(k + " : " + v));
 
 
-        ArithematicProgression ap = new ArithematicProgression(2, 4);
+        ArithmaticProgression ap = new ArithmaticProgression(2, 4);
         // 2, 4, 6, 8, 10, 12, 14, 16, 18, 20
         ap.insertTillNthTerm(10);
         IO.println(ap.getCurrentSequence());
