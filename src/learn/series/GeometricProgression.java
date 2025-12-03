@@ -1,4 +1,4 @@
-package learn.geometry;
+package learn.series;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,13 +72,13 @@ public class GeometricProgression {
     private ArrayList<Double> sequence;
     private ArrayList<ArrayList<Double>> removedHeap = new ArrayList<>();
 
-    GeometricProgression() {
+    public GeometricProgression() {
         this.isEmpty = true;
         this.isInitialized = false;
         this.sequence = new ArrayList<Double>();
     }
 
-    GeometricProgression(double first_term) {
+    public GeometricProgression(double first_term) {
         this.first_term = first_term;
         this.isEmpty = false;
         this.isInitialized = false;
@@ -86,7 +86,7 @@ public class GeometricProgression {
         this.sequence.add(this.first_term);
     }
 
-    GeometricProgression(double first_term, double second_term) {
+    public GeometricProgression(double first_term, double second_term) {
         this.first_term = first_term;
         this.second_term = second_term;
         this.common_ratio = this.second_term / this.first_term;
@@ -97,7 +97,7 @@ public class GeometricProgression {
         this.sequence.add(this.second_term);
     }
 
-    void insertTerm(double n) {
+    public void insertTerm(double n) {
         if (this.isEmpty==true && this.isInitialized==false) {
             this.first_term = n;
             this.sequence.add(n);
@@ -115,7 +115,7 @@ public class GeometricProgression {
         }
     }
 
-    void insertTillNthTerm(int n) {
+    public void insertTillNthTerm(int n) {
         if ((this.isEmpty == true && this.isInitialized == false) || (this.isEmpty == false && this.isInitialized == false)) {
             IO.println("Can't add on a non-initialized AP");
         } else {
@@ -134,7 +134,7 @@ public class GeometricProgression {
     }
 
     // This is a safe insert function, it doesn't show any error because the next insertion term is automated
-    void safeInsertNextTerm() {
+    public void safeInsertNextTerm() {
         if (this.isEmpty == true && this.isInitialized == false) IO.println("Can't addd on a non-initialized GP");
         else {
             double currentLastTerm = this.sequence.get(this.sequence.size()-1);
@@ -144,7 +144,7 @@ public class GeometricProgression {
     }
 
     // Suggest better ways
-    void clearGP() {
+    public void clearGP() {
         ArrayList<Double> copy = new ArrayList<Double>();
         this.sequence.forEach(e -> { copy.add(e); });
         this.removedHeap.add(copy);
@@ -153,7 +153,7 @@ public class GeometricProgression {
         this.isInitialized = false;
     }
 
-    void updateGP(double n_second_term) {
+    public void updateGP(double n_second_term) {
         this.second_term = n_second_term;
         this.common_ratio = this.second_term / this.first_term;
         double abs_f_term = this.sequence.get(0);
@@ -165,7 +165,7 @@ public class GeometricProgression {
         this.sequence.add(this.second_term);
     }
 
-    void resetGP(double n_first_term, double n_second_term) {
+    public void resetGP(double n_first_term, double n_second_term) {
         this.first_term = n_first_term;
         this.second_term = n_second_term;
         this.common_ratio = this.second_term / this.first_term;
@@ -179,24 +179,24 @@ public class GeometricProgression {
         this.isInitialized = true;
     }
 
-    double predictTerm() {
+    public double predictTerm() {
         double nextTerm = this.sequence.get(this.sequence.size()-1) * this.common_ratio;
         return nextTerm;
     }
 
-    double predictTerm( int n ) {
+    public double predictTerm( int n ) {
         double nextTerm = this.first_term * Math.pow(this.common_ratio, n-1);
         return nextTerm;
     }
 
-    double removeLastTerm() {
+    public double removeLastTerm() {
         if( this.isEmpty == false ) { return 0; } 
         else { return this.sequence.remove(this.sequence.size()-1); }
     }
 
-    void removeLastNTerms( int n ) { for ( int i = 0; i < n; i++ ) removeLastTerm(); }
+    public void removeLastNTerms( int n ) { for ( int i = 0; i < n; i++ ) removeLastTerm(); }
 
-    double sumOfGP() {
+    public double sumOfGP() {
         double sum = 0.0;
         if (this.isEmpty == true) { IO.println("Sum can't be initialized on an empty GP"); }
         else {
@@ -210,7 +210,7 @@ public class GeometricProgression {
     }
 
     // Returns sum of the geometric progression till any specified number/place
-    double projectedSumOfGP(int n) {
+    public double projectedSumOfGP(int n) {
         double sum = 0.0;
         if (this.isEmpty == true) { IO.println("Sum can't be initialized on an empty GP"); }
         else {
@@ -222,7 +222,7 @@ public class GeometricProgression {
         return sum;
     }
 
-    static boolean isValidGP(ArrayList<Double> sequence) {
+    public static boolean isValidGP(ArrayList<Double> sequence) {
         if (sequence.size() == 0 || sequence.size() == 1 || sequence.size() == 2) { return false; }
         else {
             // ArrayList<Double> seq = sequence;
@@ -238,7 +238,7 @@ public class GeometricProgression {
         return true;
     }
 
-    Map<String, Boolean> getGPCurrentValidityTestResult() { 
+    public Map<String, Boolean> getGPCurrentValidityTestResult() { 
         Map<String, Boolean> res = new HashMap<>();
         res.put("is_gp_empty", this.isEmpty);
         res.put("is_gp_initialized", this.isInitialized);
@@ -246,7 +246,7 @@ public class GeometricProgression {
         return res;
     }
 
-    void clearRemovedHeap() { this.removedHeap.clear(); }
-    ArrayList<ArrayList<Double>> getRemovedHeap() { return this.removedHeap; }
-    ArrayList<Double> getCurrentSequence() { return this.sequence; }
+    public void clearRemovedHeap() { this.removedHeap.clear(); }
+    public ArrayList<ArrayList<Double>> getRemovedHeap() { return this.removedHeap; }
+    public ArrayList<Double> getCurrentSequence() { return this.sequence; }
 }

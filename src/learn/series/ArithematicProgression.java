@@ -1,4 +1,4 @@
-package learn.geometry;
+package learn.series;
 
 import java.util.*;
 
@@ -33,7 +33,7 @@ public class ArithematicProgression {
     private ArrayList<ArrayList<Double>> removedHeap = new ArrayList<>();
 
 
-    ArithematicProgression (double firstNumber, double secondNumber) {
+    public ArithematicProgression (double firstNumber, double secondNumber) {
         this.firstNumber = firstNumber;
         this.secondNumber = secondNumber;
         this.difference = this.secondNumber - this.firstNumber;
@@ -44,7 +44,7 @@ public class ArithematicProgression {
         this.isInitialized = true;
     }
 
-    ArithematicProgression (double firstNumber) {
+    public ArithematicProgression (double firstNumber) {
         this.firstNumber = firstNumber;
         this.sequence = new ArrayList<>();
         sequence.add(this.firstNumber);
@@ -52,14 +52,14 @@ public class ArithematicProgression {
         this.isInitialized = false;
     }
 
-    ArithematicProgression () {
+    public ArithematicProgression () {
         this.isEmpty = true;
         this.isInitialized = false;
         this.sequence = new ArrayList<>();
     }
 
     // renamed from insertNumber to insertTerm
-    void insertTerm(double number) {
+    public void insertTerm(double number) {
         if (this.isEmpty == true && this.isInitialized == false) {
             this.firstNumber = number;
             this.sequence.add(number);
@@ -80,7 +80,7 @@ public class ArithematicProgression {
     }
 
     // Inserts terms to the nth term without error because user only has to specify of what lenth the array should be, and other stuff is handled within the code. Inserts till the size of the sequence gets "N"
-    void insertTillNthTerm(int n) {
+    public void insertTillNthTerm(int n) {
         if ((this.isEmpty == true && this.isInitialized == false) || (this.isEmpty == false && this.isInitialized == false)) {
             IO.println("Can't add on a non-initialized AP");
         } else {
@@ -98,7 +98,7 @@ public class ArithematicProgression {
         }
     }
 
-    void clearAP() {
+    public void clearAP() {
         ArrayList<Double> copy = new ArrayList<>();
         this.sequence.forEach(e -> { copy.add(e); });
         this.removedHeap.add(copy);
@@ -107,7 +107,7 @@ public class ArithematicProgression {
         this.isInitialized = false;
     }
 
-    void resetAP(double n_first_term, double n_second_term) {
+    public void resetAP(double n_first_term, double n_second_term) {
         ArrayList<Double> copy = new ArrayList<>();
         this.sequence.forEach( e -> { copy.add(e); });
         this.removedHeap.add(copy);
@@ -121,7 +121,7 @@ public class ArithematicProgression {
         this.sequence.add(this.secondNumber);
     }
 
-    void updateAP(double n_second_term) {
+    public void updateAP(double n_second_term) {
         this.secondNumber = n_second_term;
         this.difference = this.secondNumber - this.firstNumber;
         double abs_f_term = this.sequence.get(0);
@@ -135,7 +135,7 @@ public class ArithematicProgression {
     }
     
     // Returns no error while inserting as it predicts next term, properly and inserts it, without the user having to define the term so prevents error
-    void safeInsertNextTerm() {
+    public void safeInsertNextTerm() {
         if (this.isEmpty) { IO.println("No series has been specified"); }
         else {
             double lastnumber = this.sequence.get(this.sequence.size() - 1);
@@ -145,7 +145,7 @@ public class ArithematicProgression {
     }
 
     // Renamed from predictNextNumber to predictTerm
-    void predictTerm() {
+    public void predictTerm() {
         if (this.isEmpty) { IO.println("No series has been specified"); }
         else {
             double lastnumber = this.sequence.get(this.sequence.size() - 1);
@@ -155,7 +155,7 @@ public class ArithematicProgression {
     }
 
     // Added a method predictTerm(int n)
-    void predictTerm(int n) {
+    public void predictTerm(int n) {
         if (this.isEmpty) { IO.println("No series has been specified"); }
         else {
             double first_number = this.firstNumber;
@@ -166,15 +166,15 @@ public class ArithematicProgression {
     }
 
     // Renamed from removeNextNumber to removeLastTerm.
-    double removeLastTerm() {
+    public double removeLastTerm() {
         if (this.isEmpty) { return 0; }
         else {  return this.sequence.remove(this.sequence.size() - 1); }
     }
 
     // Removes the last N terms given by user
-    void removeLastNTerms( int n ) { for ( int i = 0; i < n; i++ ) removeLastTerm(); }
+    public void removeLastNTerms( int n ) { for ( int i = 0; i < n; i++ ) removeLastTerm(); }
 
-    double sumOfAP() {
+    public double sumOfAP() {
         double sum =  0;
         if (this.isEmpty) { IO.println("Sum can't be initialized on an empty AP"); }
         else {
@@ -184,7 +184,7 @@ public class ArithematicProgression {
         return sum;
     }
 
-    double projectedSumOfAP(int n) {
+    public double projectedSumOfAP(int n) {
         double sum =  0;
         if (this.isEmpty) { IO.println("Sum can't be initialized on an empty AP"); }
         else {
@@ -193,7 +193,7 @@ public class ArithematicProgression {
         return sum;
     }
 
-    static boolean isValidAPDouble(ArrayList<Double> sequence) {
+    public static boolean isValidAPDouble(ArrayList<Double> sequence) {
         if (sequence.size() == 0 || sequence.size() == 1 || sequence.size() == 2) { return false; }
         else if (sequence.size() < 2) { return false; }
         else {
@@ -209,7 +209,7 @@ public class ArithematicProgression {
         }
     }
 
-    static boolean isValidGPInteger(ArrayList<Integer> sequence) {
+    public static boolean isValidGPInteger(ArrayList<Integer> sequence) {
         if (sequence.size() == 0 || sequence.size() == 1 || sequence.size() == 2) { return false; }
         else if (sequence.size() < 2) { return false; }
         else {
@@ -225,7 +225,7 @@ public class ArithematicProgression {
         }
     }
 
-    Map<String, Boolean> getAPCurrentValidityTestResult() { 
+    public Map<String, Boolean> getAPCurrentValidityTestResult() { 
         Map<String, Boolean> res = new HashMap<>();
         res.put("is_ap_empty", this.isEmpty);
         res.put("is_ap_initialized", this.isInitialized);
@@ -233,7 +233,7 @@ public class ArithematicProgression {
         return res;
     }
 
-    void clearRemovedHeap() { this.removedHeap.clear(); }
-    ArrayList<Double> getCurrentSequence() { return this.sequence; }
-    ArrayList<ArrayList<Double>> getRemovedHeap() { return this.removedHeap; }
+    public void clearRemovedHeap() { this.removedHeap.clear(); }
+    public ArrayList<Double> getCurrentSequence() { return this.sequence; }
+    public ArrayList<ArrayList<Double>> getRemovedHeap() { return this.removedHeap; }
 }
